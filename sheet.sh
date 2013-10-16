@@ -42,7 +42,7 @@ case $1 in
   *)
     if [ $# -eq 0 ]; then
       list
-      exit
+      exit 0
     fi
 
     sheet=$SHEET_PATH/$1
