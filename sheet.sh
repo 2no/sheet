@@ -4,9 +4,9 @@ SHEET_PATH=~/.sheets
 
 list()
 {
-  for FILE in $SHEET_PATH/*
+  for file in $SHEET_PATH/*
   do
-    [ -r $FILE ] && basename $FILE
+    [ -r $file ] && basename $file
   done
 }
 
