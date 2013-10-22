@@ -17,7 +17,12 @@ case $1 in
       echo 'Please specify a name' 1>&2
       exit 1
     fi
-    $EDITOR $SHEET_PATH/$2
+
+    if [ -p /dev/stdin ]; then
+      content=`cat -`
+    fi
+    path=$SHEET_PATH/$2
+    test -z $content && $EDITOR $path || echo $content > $path
     ;;
   copy)
     if [ $# -ne 2 ]; then
