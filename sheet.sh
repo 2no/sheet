@@ -22,7 +22,7 @@ case $1 in
       content=`cat -`
     fi
     path=$SHEET_PATH/$2
-    test -z $content && $EDITOR $path || echo $content > $path
+    [ -z $content ] && $EDITOR $path || echo $content > $path
     ;;
   copy)
     if [ $# -ne 2 ]; then
@@ -56,5 +56,6 @@ case $1 in
       echo "You can create one with sheet new $1" 1>&2
       exit 1
     fi
+
     cat $sheet
 esac
