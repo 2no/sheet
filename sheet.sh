@@ -11,7 +11,7 @@ list()
 }
 
 case $1 in
-  list) list ;;
+  list|ls) list ;;
   new|edit)
     if [ $# -ne 2 ]; then
       echo 'Please specify a name' 1>&2
@@ -57,5 +57,28 @@ case $1 in
       exit 1
     fi
 
-    cat $sheet
+    if type open >/dev/null 2>&1; then
+      open_cmd='open'
+    elif type xdg-open >/dev/null 2>&1; then
+      open_cmd='xdg-open'
+    elif type cygstart >/dev/null 2>&1; then
+      open_cmd='cygstart'
+    fi
+
+    has_url=0
+    if [ ! -z "$open_cmd" ]; then
+      while read -r line
+      do
+        #echo $line
+        if expr "$line" : 'url: ' > /dev/null; then
+          url=`echo $line | sed -e "s/^url: \(.*\)$/\1/"`
+          if [ ! -z "$url" ]; then
+            `$open_cmd $url`
+            has_url=1
+          fi
+        fi
+      done < $sheet
+    fi
+
+    [ $has_url -eq 0 ] && cat $sheet
 esac
