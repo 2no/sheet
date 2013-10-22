@@ -69,8 +69,7 @@ case $1 in
     if [ ! -z "$open_cmd" ]; then
       while read -r line
       do
-        #echo $line
-        if expr "$line" : 'url: ' > /dev/null; then
+        if expr "$line" : 'url: .*' > /dev/null; then
           url=`echo $line | sed -e "s/^url: \(.*\)$/\1/"`
           if [ ! -z "$url" ]; then
             `$open_cmd $url`
